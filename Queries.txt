@@ -1,0 +1,88 @@
+bajaj=# select * from employees;
+ empid |     empname      | managerid | date_of_joining | salary | project |	city
+-------+------------------+-----------+-----------------+--------+---------+-----------
+     1 | Sahil Goel       |       101 | 2022-01-13      |  50000 | P1		| Mumbai
+     2 | Celia Bruckental |       202 | 2021-11-19      |  49651 | P8		| Wisconsin
+     3 | Geri Grayston    |        94 | 2021-04-03      |  33861 | Z0		| New York
+     4 | Marsha Simchenko |        84 | 2021-12-30      |  44157 | S9		| Texas
+     5 | Erskine Wissby   |        65 | 2021-05-13      |  14030 | V9		| Washington
+(5 rows)
+
+
+Q1: bajaj=# select empid,empname from employees where managerid=101;
+ empid |  empname
+-------+------------
+     1 | Sahil Goel
+(1 row)
+
+Q2: bajaj=# select count(*) from employees where project = 'P1';
+ count
+-------
+     1
+(1 row)
+
+Q3: bajaj=# select min(salary), max(salary), avg(salary) from employees;
+  min  |  max  |        avg
+-------+-------+--------------------
+ 14030 | 50000 | 38339.800000000000
+(1 row)
+    
+Q4: bajaj=# select empid from employees where salary between 10000 and 15000;
+ empid
+-------
+     5
+(1 row)
+
+Q5: bajaj=# select empname, salary + 500 from employees;
+     empname      | ?column?
+------------------+----------
+ Sahil Goel       |    50500
+ Celia Bruckental |    50151
+ Geri Grayston    |    34361
+ Marsha Simchenko |    44657
+ Erskine Wissby   |    14530
+(5 rows)
+
+Q6: bajaj=# select employeedetails.empid from employeedetails,employees where
+employeedetails.empid = employees.empid;
+empid
+-------
+11
+12
+13
+14
+(4 rows)
+
+Q7: bajaj=# select UPPER(fullname), LOWER(city) from employeeedetails;
+upper | lower
+---------+-----------
+Sahil Goel | mumbai
+Celia Bruckental | wisconsin
+Geri Grayston | new york
+Marsha Simchenko | texas
+Erskine Wissby | washington
+
+(4 rows)
+Q8: bajaj=# select project, count(empid) as emp_count from employees group by project order by emp_count desc;
+ project | emp_count
+---------+-----------
+ Z0      |         1
+ P1      |         1
+ P8      |         1
+ V9      |         1
+ S9      |         1
+(5 rows)
+
+Q9: bajaj=# select * from employees where mod (empid,2) <> 0;
+ empid |    empname     | managerid | date_of_joining | salary | project
+-------+----------------+-----------+-----------------+--------+---------
+     1 | Sahil Goel     |       101 | 2022-01-13      |  50000 | P1
+     3 | Geri Grayston  |        94 | 2021-04-03      |  33861 | Z0
+     5 | Erskine Wissby |        65 | 2021-05-13      |  14030 | V9
+(3 rows)
+
+Q10: bajaj=# select max(salary) from employees where salary != (select max(salary) from employees where salary != (select max(salary) from employees )) and salary != (select max(salary) from employees);
+  max
+-------
+ 44157
+(1 row)
